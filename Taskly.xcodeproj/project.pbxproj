@@ -15,7 +15,6 @@
 		88B7C1F12E92787C00FCB762 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 88B7C1F02E92787C00FCB762 /* FirebaseAppCheck */; };
 		88B7C1F72E92822C00FCB762 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 88B7C1F62E92822C00FCB762 /* FirebaseFirestore */; };
 		88B7C21B2E93F63900FCB762 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 88B7C21A2E93F63900FCB762 /* GoogleSignIn */; };
-		88B7C2E52E96F2FC00FCB762 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 88B7C2E32E96F2FC00FCB762 /* Localizable.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,13 +39,10 @@
 		886066F32E834F440092B82B /* TasklyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasklyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		886066FD2E834F440092B82B /* TasklyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasklyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88B7C2182E93D32400FCB762 /* Taskly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Taskly.entitlements; sourceTree = "<group>"; };
-		88B7C2E42E96F2FC00FCB762 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		88B7C2E82E96F30400FCB762 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		88B7C2EB2E96FD0100FCB762 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		886067052E834F440092B82B /* Exceptions for "ToDoList" folder in "Taskly" target */ = {
+		888FB5512EEAED7B0093DAC5 /* Exceptions for "ToDoList" folder in "Taskly" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
@@ -59,7 +55,7 @@
 		886066DF2E834F420092B82B /* ToDoList */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				886067052E834F440092B82B /* Exceptions for "ToDoList" folder in "Taskly" target */,
+				888FB5512EEAED7B0093DAC5 /* Exceptions for "ToDoList" folder in "Taskly" target */,
 			);
 			path = ToDoList;
 			sourceTree = "<group>";
@@ -112,10 +108,9 @@
 		886066D42E834F420092B82B = {
 			isa = PBXGroup;
 			children = (
-				88B7C2E32E96F2FC00FCB762 /* Localizable.strings */,
-				88B7C2182E93D32400FCB762 /* Taskly.entitlements */,
 				886066DF2E834F420092B82B /* ToDoList */,
 				886066F62E834F440092B82B /* ToDoListTests */,
+				88B7C2182E93D32400FCB762 /* Taskly.entitlements */,
 				886067002E834F440092B82B /* ToDoListUITests */,
 				88B7C1E32E91981B00FCB762 /* Frameworks */,
 				886066DE2E834F420092B82B /* Products */,
@@ -278,7 +273,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88B7C2E52E96F2FC00FCB762 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -334,19 +328,6 @@
 			targetProxy = 886066FE2E834F440092B82B /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		88B7C2E32E96F2FC00FCB762 /* Localizable.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				88B7C2E42E96F2FC00FCB762 /* tr */,
-				88B7C2E82E96F30400FCB762 /* en */,
-				88B7C2EB2E96FD0100FCB762 /* de */,
-			);
-			name = Localizable.strings;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		886067072E834F440092B82B /* Debug */ = {
