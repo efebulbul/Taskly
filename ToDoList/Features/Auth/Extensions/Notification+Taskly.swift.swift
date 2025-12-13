@@ -1,5 +1,5 @@
 //
-//  Notification+Taskly.swift.swift
+//  Notification+Taskly.swift.
 //  Taskly
 //
 //  Created by EfeBülbül on 13.12.2025.

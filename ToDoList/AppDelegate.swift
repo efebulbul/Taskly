@@ -1,3 +1,10 @@
+//
+//  AppDelegate.swift
+//  ToDoList
+//
+//  Created by EfeBülbül on 24.09.2025.
+//
+
 import UIKit
 import UserNotifications
 #if canImport(FirebaseCore)

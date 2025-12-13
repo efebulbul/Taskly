@@ -1,3 +1,10 @@
+//
+//  RegisterViewController.swift
+//  Taskly
+//
+//  Created by EfeBülbül on 04.10.2025.
+//
+
 import UIKit
 import UserNotifications
 import FirebaseAuth
