@@ -19,8 +19,7 @@ extension SettingsViewController {
             cfg.secondaryText = ""
             cfg.image = UIImage(systemName: "person.circle.fill")
             cfg.imageProperties.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
-            let appColor = UIColor(named: "AppBlue") ?? UIColor(red: 0/255, green: 111/255, blue: 255/255, alpha: 1.0)
-            cfg.imageProperties.tintColor = appColor
+            cfg.imageProperties.tintColor = .appBlue
 
             // Tap to open profile panel (name, email, sign out, delete)
             cell.gestureRecognizers?.forEach { cell.removeGestureRecognizer($0) }
@@ -34,12 +33,11 @@ extension SettingsViewController {
             cfg.secondaryText = L("profile.signin.subtitle")
             cfg.image = UIImage(systemName: "person.crop.circle")
             cfg.imageProperties.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
-            let appColor = UIColor(named: "AppBlue") ?? UIColor(red: 0/255, green: 111/255, blue: 255/255, alpha: 1.0)
-            cfg.imageProperties.tintColor = appColor
+            cfg.imageProperties.tintColor = .appBlue
 
             let loginButton = UIButton(type: .system)
             loginButton.setTitle(L("profile.signin"), for: .normal)
-            loginButton.setTitleColor(appColor, for: .normal)
+            loginButton.setTitleColor(.appBlue, for: .normal)
             loginButton.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
             loginButton.addAction(UIAction { _ in
                 self.presentLogin()
@@ -51,8 +49,7 @@ extension SettingsViewController {
         cfg.secondaryText = L("profile.signin.subtitle")
         cfg.image = UIImage(systemName: "person.crop.circle")
         cfg.imageProperties.preferredSymbolConfiguration = UIImage.SymbolConfiguration(pointSize: 30, weight: .regular)
-        let appColor = UIColor(named: "AppBlue") ?? UIColor(red: 0/255, green: 111/255, blue: 255/255, alpha: 1.0)
-        cfg.imageProperties.tintColor = appColor
+        cfg.imageProperties.tintColor = .Appblue
         #endif
 
         cfg.textProperties.font = .preferredFont(forTextStyle: .headline)

@@ -200,14 +200,13 @@ final class LoginViewController: UIViewController {
 
     private let languageButton: UIButton = {
         let b = UIButton(type: .system)
-        let appBlue = (UIColor(named: "AppBlue") ?? UIColor(red: 0/255, green: 111/255, blue: 255/255, alpha: 1))
-        
+                
         if #available(iOS 15.0, *) {
             var config = UIButton.Configuration.plain()
             config.title = NSLocalizedString("settings.language", comment: "")
             config.image = UIImage(systemName: "globe")
             config.imagePadding = 6
-            config.baseForegroundColor = appBlue
+            config.baseForegroundColor = .appBlue
             config.contentInsets = NSDirectionalEdgeInsets(top: 8, leading: 10, bottom: 8, trailing: 12)
             config.background.backgroundColor = .secondarySystemBackground
             config.background.cornerRadius = 10
@@ -215,10 +214,10 @@ final class LoginViewController: UIViewController {
         } else {
             if let img = UIImage(systemName: "globe") {
                 b.setImage(img, for: .normal)
-                b.tintColor = appBlue
+                b.tintColor = .appBlue
             }
             b.setTitle(NSLocalizedString("settings.language", comment: ""), for: .normal)
-            b.setTitleColor(appBlue, for: .normal)
+            b.setTitleColor(.appBlue, for: .normal)
             b.titleLabel?.font = .systemFont(ofSize: 15, weight: .semibold)
             b.contentEdgeInsets = UIEdgeInsets(top: 8, left: 10, bottom: 8, right: 12)
             b.layer.cornerRadius = 10

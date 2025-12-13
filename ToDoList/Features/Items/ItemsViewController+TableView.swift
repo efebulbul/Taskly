@@ -102,8 +102,7 @@ extension ItemsViewController {
         cell.layer.masksToBounds = true
 
         let sel = UIView()
-        sel.backgroundColor = (UIColor(named: "AppBlue")
-                               ?? UIColor(red: 0/255, green: 111/255, blue: 255/255, alpha: 1))
+        sel.backgroundColor = .appBlue
             .withAlphaComponent(0.12)
         sel.layer.cornerRadius = 12
         sel.layer.masksToBounds = true

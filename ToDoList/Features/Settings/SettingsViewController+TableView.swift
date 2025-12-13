@@ -82,7 +82,7 @@ extension SettingsViewController {
 
                 let sw = UISwitch()
                 sw.isOn = UserDefaults.standard.bool(forKey: dailyReminderKey)
-                sw.onTintColor = UIColor(named: "AppBlue") ?? UIColor(red: 0/255, green: 111/255, blue: 255/255, alpha: 1.0)
+                sw.onTintColor = .appBlue
                 sw.addAction(UIAction { [weak self] _ in
                     guard let self = self else { return }
                     let enabled = sw.isOn
