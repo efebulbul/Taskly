@@ -15,6 +15,9 @@
 		88B7C1F12E92787C00FCB762 /* FirebaseAppCheck in Frameworks */ = {isa = PBXBuildFile; productRef = 88B7C1F02E92787C00FCB762 /* FirebaseAppCheck */; };
 		88B7C1F72E92822C00FCB762 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 88B7C1F62E92822C00FCB762 /* FirebaseFirestore */; };
 		88B7C21B2E93F63900FCB762 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 88B7C21A2E93F63900FCB762 /* GoogleSignIn */; };
+		88EAA1CA2EF32EFD0046D6A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88EAA1C92EF32EFD0046D6A7 /* GoogleService-Info.plist */; };
+		88EAA1CB2EF32EFD0046D6A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88EAA1C92EF32EFD0046D6A7 /* GoogleService-Info.plist */; };
+		88EAA1CC2EF32EFD0046D6A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 88EAA1C92EF32EFD0046D6A7 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +42,7 @@
 		886066F32E834F440092B82B /* TasklyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasklyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		886066FD2E834F440092B82B /* TasklyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TasklyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		88B7C2182E93D32400FCB762 /* Taskly.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Taskly.entitlements; sourceTree = "<group>"; };
+		88EAA1C92EF32EFD0046D6A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -130,6 +134,7 @@
 		88B7C1E32E91981B00FCB762 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				88EAA1C92EF32EFD0046D6A7 /* GoogleService-Info.plist */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -273,6 +278,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88EAA1CC2EF32EFD0046D6A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +286,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88EAA1CA2EF32EFD0046D6A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +294,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				88EAA1CB2EF32EFD0046D6A7 /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

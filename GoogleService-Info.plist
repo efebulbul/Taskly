@@ -3,21 +3,21 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>294193171361-t93d0a2brlln1e1lvpqv3k4dhj16ki70.apps.googleusercontent.com</string>
+	<string>654008070584-untvguj38fs4ouo41b7pbrp6l3m8ksui.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.294193171361-t93d0a2brlln1e1lvpqv3k4dhj16ki70</string>
+	<string>com.googleusercontent.apps.654008070584-untvguj38fs4ouo41b7pbrp6l3m8ksui</string>
 	<key>API_KEY</key>
-	<string>AIzaSyAHp4tkqozw7JpuRL70uQLtFnQ74_0khao</string>
+	<string>AIzaSyBv-l7FgCLTJZ3VnHK7wvTVzL5-l4jb0AM</string>
 	<key>GCM_SENDER_ID</key>
-	<string>294193171361</string>
+	<string>654008070584</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.efebulbul.ToDoList</string>
 	<key>PROJECT_ID</key>
-	<string>taskly-61</string>
+	<string>bultech-taskly</string>
 	<key>STORAGE_BUCKET</key>
-	<string>taskly-61.firebasestorage.app</string>
+	<string>bultech-taskly.firebasestorage.app</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:294193171361:ios:50e2fa2733829e432119e0</string>
+	<string>1:654008070584:ios:dd32fa4cf833b400809f4d</string>
 </dict>
 </plist>
