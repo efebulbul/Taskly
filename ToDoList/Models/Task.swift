@@ -9,14 +9,13 @@ import FirebaseFirestore
 
 // MARK: - Model (Firestore uyumlu)
 struct Task: Codable, Equatable, Identifiable {
-    var id: String?          // @DocumentID kalktı
+    var id: String?
     var title: String
     var emoji: String
     var done: Bool
     var dueDate: Date?
     var notes: String?
-    var createdAt: Date?     // @ServerTimestamp kalktı
-
+    var createdAt: Date?
     init(id: String? = nil,
          title: String,
          emoji: String,

@@ -84,7 +84,6 @@ final class ItemsViewController: UITableViewController {
             object: nil
         )
 
-        // Brand in Navigation Bar
         let brandContainer = UIStackView()
         brandContainer.axis = .horizontal
         brandContainer.alignment = .center

@@ -5,6 +5,7 @@
 //  Created by EfeBülbül on 04.10.2025.
 //
 import UIKit
+import ObjectiveC
 #if canImport(FirebaseAuth)
 import FirebaseAuth
 #endif
@@ -18,8 +19,8 @@ extension SettingsViewController {
 
     // MARK: - Apple Reauth State (Associated Objects)
     private struct ReauthKeys {
-        static var currentNonce = "taskly.currentNonce"
-        static var reauthCompletion = "taskly.reauthCompletion"
+        static var currentNonce: UInt8 = 0
+        static var reauthCompletion: UInt8 = 0
     }
 
     private var currentNonce: String? {
@@ -29,7 +30,7 @@ extension SettingsViewController {
 
     private var reauthCompletion: ((Bool, Error?) -> Void)? {
         get { objc_getAssociatedObject(self, &ReauthKeys.reauthCompletion) as? ((Bool, Error?) -> Void) }
-        set { objc_setAssociatedObject(self, &ReauthKeys.reauthCompletion, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+        set { objc_setAssociatedObject(self, &ReauthKeys.reauthCompletion, newValue as Any, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
     }
 
     private func randomNonceString(length: Int = 32) -> String {

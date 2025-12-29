@@ -255,7 +255,6 @@
 				en,
 				de,
 				fr,
-				ar,
 				ru,
 				es,
 				el,
