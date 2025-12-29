@@ -88,7 +88,7 @@ extension ItemsViewController {
                     "createdAt": Timestamp(date: Date())
                 ]
 
-                doc.setData(data.compactMapValues { $0 }, merge: true) { err in
+                doc.setData(data.compactMapValues { $0 }, merge: false) { err in
                     if let err = err {
                         let proj = FirebaseApp.app()?.options.projectID ?? "nil"
                         print("⚠️ Add task error:", err.localizedDescription, "| ProjectID:", proj, "| UID:", uid)
@@ -104,18 +104,10 @@ extension ItemsViewController {
                         done: false,
                         dueDate: due,
                         notes: finalNotes,
-                        createdAt: nil
+                        createdAt: Date()
                     )
 
                     ReminderScheduler.schedule(for: scheduled)
-
-                    DispatchQueue.main.async {
-                        var immediate = scheduled
-                        immediate.createdAt = Date()
-                        self.tasks.append(immediate)
-                        self.tableView.reloadData()
-                        self.refreshEmptyState()
-                    }
                 }
             }
 

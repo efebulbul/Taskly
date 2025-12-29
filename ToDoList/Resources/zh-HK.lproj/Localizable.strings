@@ -305,3 +305,6 @@
 
 "settings.rateUs" = "為我們評分";
 "settings.rateUs.subtitle" = "在 App Store 留下評價";
+
+"settings.section.generalPreferences" = "通用设置";
+"settings.section.supportInfo" = "支持与信息";

@@ -297,3 +297,6 @@
 
 "settings.rateUs" = "評価する";
 "settings.rateUs.subtitle" = "App Storeで評価してください";
+
+"settings.section.generalPreferences" = "一般設定";
+"settings.section.supportInfo" = "サポートと情報";

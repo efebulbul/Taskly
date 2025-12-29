@@ -140,12 +140,6 @@ extension ItemsViewController {
             if let gi = self.globalIndex(from: indexPath) {
                 let task = self.tasks[gi]
 
-                DispatchQueue.main.async {
-                    self.tasks.removeAll { $0.id == task.id }
-                    self.tableView.reloadData()
-                    self.refreshEmptyState()
-                }
-
                 ReminderScheduler.cancel(for: task)
 
                 if let id = task.id, let uid = Auth.auth().currentUser?.uid {
@@ -175,15 +169,8 @@ extension ItemsViewController {
 
         let action = UIContextualAction(style: .normal, title: title) { [weak self] _,_,done in
             guard let self = self, let gi = self.globalIndex(from: indexPath) else { return }
-            var target = self.tasks[gi]
+            let target = self.tasks[gi]
             let newDone = !target.done
-            target.done = newDone
-
-            DispatchQueue.main.async {
-                self.tasks[gi].done = newDone
-                self.tableView.reloadData()
-                self.refreshEmptyState()
-            }
 
             if newDone {
                 ReminderScheduler.cancel(for: target)

@@ -305,3 +305,6 @@
 
 "settings.rateUs" = "हमें रेट करें";
 "settings.rateUs.subtitle" = "App Store पर रेटिंग दें";
+
+"settings.section.generalPreferences" = "सामान्य प्राथमिकताएँ";
+"settings.section.supportInfo" = "सहायता और जानकारी";

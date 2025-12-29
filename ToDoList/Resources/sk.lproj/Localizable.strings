@@ -293,3 +293,6 @@
 
 "settings.rateUs" = "Ohodnoťte nás";
 "settings.rateUs.subtitle" = "Ohodnoťte aplikáciu v App Store";
+
+"settings.section.generalPreferences" = "Všeobecné nastavenia";
+"settings.section.supportInfo" = "Podpora a informácie";

@@ -305,3 +305,6 @@
 
 "settings.rateUs" = "Avalie-nos";
 "settings.rateUs.subtitle" = "Deixe uma avaliação na App Store";
+
+"settings.section.generalPreferences" = "Preferências gerais";
+"settings.section.supportInfo" = "Suporte e informações";

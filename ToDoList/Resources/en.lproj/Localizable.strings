@@ -297,3 +297,6 @@
 
 "settings.rateUs" = "Rate us";
 "settings.rateUs.subtitle" = "Leave a rating on the App Store";
+
+"settings.section.generalPreferences" = "General Preferences";
+"settings.section.supportInfo" = "Support & Information";

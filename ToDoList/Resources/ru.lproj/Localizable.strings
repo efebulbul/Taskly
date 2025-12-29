@@ -305,3 +305,6 @@
 
 "settings.rateUs" = "Оцените нас";
 "settings.rateUs.subtitle" = "Оставьте оценку в App Store";
+
+"settings.section.generalPreferences" = "Общие настройки";
+"settings.section.supportInfo" = "Поддержка и информация";

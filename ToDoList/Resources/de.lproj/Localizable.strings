@@ -297,3 +297,6 @@
 
 "settings.rateUs" = "Bewerten";
 "settings.rateUs.subtitle" = "Im App Store bewerten";
+
+"settings.section.generalPreferences" = "Allgemeine Einstellungen";
+"settings.section.supportInfo" = "Support & Informationen";

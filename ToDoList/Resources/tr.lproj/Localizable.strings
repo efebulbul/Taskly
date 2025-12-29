@@ -305,3 +305,6 @@
 
 "settings.rateUs" = "Bizi değerlendirin";
 "settings.rateUs.subtitle" = "App Store’da puan ver";
+
+"settings.section.generalPreferences" = "Genel Tercihler";
+"settings.section.supportInfo" = "Destek ve Bilgi";

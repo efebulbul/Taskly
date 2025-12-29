@@ -11,8 +11,67 @@ import FirebaseAuth
 #if canImport(FirebaseFirestore)
 import FirebaseFirestore
 #endif
+import AuthenticationServices
+import CryptoKit
 
 extension SettingsViewController {
+
+    // MARK: - Apple Reauth State (Associated Objects)
+    private struct ReauthKeys {
+        static var currentNonce = "taskly.currentNonce"
+        static var reauthCompletion = "taskly.reauthCompletion"
+    }
+
+    private var currentNonce: String? {
+        get { objc_getAssociatedObject(self, &ReauthKeys.currentNonce) as? String }
+        set { objc_setAssociatedObject(self, &ReauthKeys.currentNonce, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
+    private var reauthCompletion: ((Bool, Error?) -> Void)? {
+        get { objc_getAssociatedObject(self, &ReauthKeys.reauthCompletion) as? ((Bool, Error?) -> Void) }
+        set { objc_setAssociatedObject(self, &ReauthKeys.reauthCompletion, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC) }
+    }
+
+    private func randomNonceString(length: Int = 32) -> String {
+        precondition(length > 0)
+        let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+        var result = ""
+        var remainingLength = length
+
+        while remainingLength > 0 {
+            var randoms = [UInt8](repeating: 0, count: 16)
+            let errorCode = SecRandomCopyBytes(kSecRandomDefault, randoms.count, &randoms)
+            if errorCode != errSecSuccess {
+                // Fallback (should be extremely rare)
+                return UUID().uuidString.replacingOccurrences(of: "-", with: "")
+            }
+
+            randoms.forEach { random in
+                if remainingLength == 0 { return }
+                if random < charset.count {
+                    result.append(charset[Int(random)])
+                    remainingLength -= 1
+                }
+            }
+        }
+
+        return result
+    }
+
+    private func sha256(_ input: String) -> String {
+        let inputData = Data(input.utf8)
+        let hashed = SHA256.hash(data: inputData)
+        return hashed.compactMap { String(format: "%02x", $0) }.joined()
+    }
+
+    private func isAppleProviderUser() -> Bool {
+        #if canImport(FirebaseAuth)
+        let providers = Auth.auth().currentUser?.providerData.map { $0.providerID } ?? []
+        return providers.contains("apple.com")
+        #else
+        return false
+        #endif
+    }
 
     /// Profil özet hücresi: avatar + ad (e-posta tap ile açılır). Giriş yoksa "Giriş Yap" görünümü.
     func buildProfileSummaryCell(_ tableView: UITableView) -> UITableViewCell {
@@ -107,48 +166,119 @@ extension SettingsViewController {
         present(ac, animated: true)
     }
 
+    // MARK: - Reauthentication
+    private func reauthenticateWithAppleIfPossible(completion: @escaping (Bool, Error?) -> Void) {
+        // Only meaningful when FirebaseAuth exists and the current user is an Apple provider user.
+        #if canImport(FirebaseAuth)
+        guard isAppleProviderUser() else {
+            completion(false, nil)
+            return
+        }
+
+        self.reauthCompletion = completion
+
+        let nonce = randomNonceString()
+        self.currentNonce = nonce
+
+        let provider = ASAuthorizationAppleIDProvider()
+        let request = provider.createRequest()
+        // For reauth we don't need scopes; Apple may still prompt (Face ID/Touch ID/passcode).
+        request.requestedScopes = []
+        request.nonce = sha256(nonce)
+
+        let controller = ASAuthorizationController(authorizationRequests: [request])
+        controller.delegate = self
+        controller.presentationContextProvider = self
+        controller.performRequests()
+        #else
+        completion(false, nil)
+        #endif
+    }
+
     func performAccountDeletion() {
         #if canImport(FirebaseAuth)
-        guard let _ = Auth.auth().currentUser else {
+        guard let user = Auth.auth().currentUser else {
             self.presentOK(title: L("common.error"), message: "No current user.")
             return
         }
-        #endif
-        #if canImport(FirebaseFirestore)
-        guard let uid = Auth.auth().currentUser?.uid else { return }
-        let db = Firestore.firestore()
-        let userDoc = db.collection("users").document(uid)
-
-        db.collection("users").document(uid).collection("tasks").getDocuments { snap, _ in
-            let batch = db.batch()
-            snap?.documents.forEach { batch.deleteDocument($0.reference) }
-            batch.deleteDocument(userDoc)
-            batch.commit { [weak self] _ in
-                guard let self = self else { return }
-                #if canImport(FirebaseAuth)
-                Auth.auth().currentUser?.delete(completion: { err in
-                    DispatchQueue.main.async {
-                        if let err = err as NSError?, err.code == AuthErrorCode.requiresRecentLogin.rawValue {
-                            self.presentOK(title: L("auth.required.title"), message: Lf("auth.required.message", "Lütfen devam etmek için tekrar giriş yap."))
-                            return
-                        } else if let err = err {
-                            self.presentOK(title: L("common.error"), message: err.localizedDescription)
-                            return
-                        }
-                        SettingsViewController.UserSession.shared.signOut()
-                        try? Auth.auth().signOut()
-                        self.tableView.reloadData()
-                        let login = LoginViewController()
-                        login.modalPresentationStyle = .fullScreen
-                        self.present(login, animated: true)
-                    }
-                })
-                #endif
-            }
-        }
+        let uid = user.uid
         #else
-        self.presentOK(title: L("common.error"), message: "Firestore not available in this build.")
+        self.presentOK(title: L("common.error"), message: "Auth not available in this build.")
+        return
         #endif
+
+        // Step 1: Ensure we have a recent login (otherwise Firebase returns requiresRecentLogin).
+        // We test by attempting a lightweight delete later; if it fails we will reauth and retry.
+
+        func runFirestoreCleanupThenDeleteUser() {
+            #if canImport(FirebaseFirestore)
+            let db = Firestore.firestore()
+            let userDoc = db.collection("users").document(uid)
+
+            db.collection("users").document(uid).collection("tasks").getDocuments { [weak self] snap, _ in
+                guard let self = self else { return }
+
+                let batch = db.batch()
+                snap?.documents.forEach { batch.deleteDocument($0.reference) }
+                batch.deleteDocument(userDoc)
+
+                batch.commit { [weak self] _ in
+                    guard let self = self else { return }
+
+                    // Now delete the Auth user (should succeed if login is recent)
+                    Auth.auth().currentUser?.delete { err in
+                        DispatchQueue.main.async {
+                            if let err = err as NSError?, err.code == AuthErrorCode.requiresRecentLogin.rawValue {
+                                // Reauth (Face ID / Apple prompt) then retry the Auth delete ONLY.
+                                self.reauthenticateWithAppleIfPossible { success, reauthErr in
+                                    if !success {
+                                        let msg = reauthErr?.localizedDescription ?? Lf("auth.required.message", "Lütfen devam etmek için tekrar giriş yap.")
+                                        self.presentOK(title: L("auth.required.title"), message: msg)
+                                        return
+                                    }
+                                    Auth.auth().currentUser?.delete { err2 in
+                                        DispatchQueue.main.async {
+                                            if let err2 = err2 {
+                                                self.presentOK(title: L("common.error"), message: err2.localizedDescription)
+                                                return
+                                            }
+                                            SettingsViewController.UserSession.shared.signOut()
+                                            try? Auth.auth().signOut()
+                                            self.tableView.reloadData()
+                                            let login = LoginViewController()
+                                            login.modalPresentationStyle = .fullScreen
+                                            self.present(login, animated: true)
+                                        }
+                                    }
+                                }
+                                return
+                            }
+
+                            if let err = err {
+                                self.presentOK(title: L("common.error"), message: err.localizedDescription)
+                                return
+                            }
+
+                            SettingsViewController.UserSession.shared.signOut()
+                            try? Auth.auth().signOut()
+                            self.tableView.reloadData()
+                            let login = LoginViewController()
+                            login.modalPresentationStyle = .fullScreen
+                            self.present(login, animated: true)
+                        }
+                    }
+                }
+            }
+            #else
+            DispatchQueue.main.async {
+                self.presentOK(title: L("common.error"), message: "Firestore not available in this build.")
+            }
+            #endif
+        }
+
+        // First attempt: run cleanup and delete.
+        // If delete fails with requiresRecentLogin, we reauth and retry delete.
+        runFirestoreCleanupThenDeleteUser()
     }
 
     // MARK: - Profile actions
@@ -244,3 +374,57 @@ extension SettingsViewController {
         tableView.reloadData()
     }
 }
+
+#if canImport(FirebaseAuth)
+extension SettingsViewController: ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
+
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        return view.window ?? ASPresentationAnchor()
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
+        guard let appleIDCredential = authorization.credential as? ASAuthorizationAppleIDCredential else {
+            reauthCompletion?(false, nil)
+            reauthCompletion = nil
+            currentNonce = nil
+            return
+        }
+
+        guard let nonce = currentNonce else {
+            reauthCompletion?(false, nil)
+            reauthCompletion = nil
+            return
+        }
+
+        guard let identityToken = appleIDCredential.identityToken,
+              let idTokenString = String(data: identityToken, encoding: .utf8) else {
+            let err = NSError(domain: "Taskly", code: -1, userInfo: [NSLocalizedDescriptionKey: "Unable to fetch Apple identity token."])
+            reauthCompletion?(false, err)
+            reauthCompletion = nil
+            currentNonce = nil
+            return
+        }
+
+        let credential = OAuthProvider.appleCredential(withIDToken: idTokenString,
+                                                      rawNonce: nonce,
+                                                      fullName: appleIDCredential.fullName)
+
+        Auth.auth().currentUser?.reauthenticate(with: credential) { [weak self] _, error in
+            guard let self = self else { return }
+            DispatchQueue.main.async {
+                self.reauthCompletion?(error == nil, error)
+                self.reauthCompletion = nil
+                self.currentNonce = nil
+            }
+        }
+    }
+
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        DispatchQueue.main.async {
+            self.reauthCompletion?(false, error)
+            self.reauthCompletion = nil
+            self.currentNonce = nil
+        }
+    }
+}
+#endif

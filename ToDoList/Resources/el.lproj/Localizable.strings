@@ -305,3 +305,6 @@
 
 "settings.rateUs" = "Αξιολογήστε μας";
 "settings.rateUs.subtitle" = "Αφήστε μια αξιολόγηση στο App Store";
+
+"settings.section.generalPreferences" = "Γενικές Προτιμήσεις";
+"settings.section.supportInfo" = "Υποστήριξη & Πληροφορίες";
